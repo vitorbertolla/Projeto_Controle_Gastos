@@ -7,6 +7,7 @@ const Filtro = ({filtro, setFiltro, ordem, setOrdem}) =>{
                     <h3>Categoria</h3>
                     <select name="" id="" value={filtro} onChange={(e)=> setFiltro(e.target.value)}>
                         <option value="Todas">Todas</option>
+                        <option value="Investimento">Investimento</option>
                         <option value="Fixa">Fixa</option>
                         <option value="Variável">Variável</option>
                         <option value="Alimentação">Alimentação</option>

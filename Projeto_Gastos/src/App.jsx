@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ToDo from './ToDo'
 import ToDoForm from './ToDoForm'
 import Buscar from './busca'
@@ -7,63 +7,89 @@ import './App.css'
 
 function App() {
   const [despesaEditando, setEditando] = useState('')
-  const[Despesas, SetDespesas] = useState([])  
+  const [Despesas, SetDespesas] = useState([])  
+  const [busca, setBusca] = useState('')
+  const [filtro, setFiltro] = useState('Todas')
+  const [ordem, setOrdem] = useState('decrescente')
 
-const addDespesa = (descricao, valor, categoria) => {
-  const agora = new Date()
-
-  if (despesaEditando) {
-    // Edição
-    const atualizadas = Despesas.map((despesa) =>
-      despesa.data === despesaEditando.data
-        ? { ...despesa, descricao, valor, categoria }
-        : despesa
-    )
-    SetDespesas(atualizadas)
-    setEditando('')
-  } else {
-    // Nova despesa
-    const novaDespesa = {
-      descricao,
-      valor,
-      categoria,
-      data: agora.toLocaleString(),
-      pago: false
+  // Carrega do localStorage ao iniciar
+  useEffect(() => {
+    const listaSalva = localStorage.getItem("despesas")
+    if (listaSalva) {
+      SetDespesas(JSON.parse(listaSalva))
     }
-    SetDespesas([...Despesas, novaDespesa])
-    salvarListaNoLocalStorage();
+  }, [])
+
+  const salvarListaNoLocalStorage = (lista) => {
+    localStorage.setItem("despesas", JSON.stringify(lista))
   }
-}
+
+  const addDespesa = (descricao, valor, categoria) => {
+    const agora = new Date()
+
+    if (despesaEditando) {
+      const atualizadas = Despesas.map((despesa) =>
+        despesa.data === despesaEditando.data
+          ? { ...despesa, descricao, valor, categoria }
+          : despesa
+      )
+      SetDespesas(atualizadas)
+      salvarListaNoLocalStorage(atualizadas)
+      setEditando('')
+    } else {
+      const novaDespesa = {
+        descricao,
+        valor: Number(valor),
+        categoria,
+        data: agora.toLocaleString(),
+        pago: false
+      }
+      const atualizadas = [...Despesas, novaDespesa]
+      SetDespesas(atualizadas)
+      salvarListaNoLocalStorage(atualizadas)
+    }
+  }
+
   const editarDespesa = (data) => {
     const d = Despesas.find((despesa) => despesa.data === data)
     if (d) setEditando(d)
   }
 
- const removeDespesas = (data) => {
-    const filterDespesas = Despesas.filter((despesa) => despesa.data !== data)
-    SetDespesas(filterDespesas)
+  const removeDespesas = (data) => {
+    const atualizadas = Despesas.filter((despesa) => despesa.data !== data)
+    SetDespesas(atualizadas)
+    salvarListaNoLocalStorage(atualizadas)
   }
-const pagarDespesas = (data) => {
-  const atualizadas = Despesas.map((despesa) =>
-    despesa.data === data
-      ? { ...despesa, pago: !despesa.pago }
-      : despesa
-  )
-  SetDespesas(atualizadas)
-}
-const saldoDespesas = (Despesas) =>{
-    return Despesas.reduce((total, despesa) => {
-    return despesa.pago ? total : total +despesa.valor
-  }, 0)
-}
-const DespesasFiltradas = () =>{
+
+  const pagarDespesas = (data) => {
+    const atualizadas = Despesas.map((despesa) =>
+      despesa.data === data
+        ? { ...despesa, pago: !despesa.pago }
+        : despesa
+    )
+    SetDespesas(atualizadas)
+    salvarListaNoLocalStorage(atualizadas)
+  }
+
+  const saldoDespesas = (lista) => {
+    return lista.reduce((total, despesa) =>
+      despesa.categoria==='Investimento'? total: despesa.pago ? total : total + Number(despesa.valor)
+    , 0)
+  }
+  const saldoInvestimentos = (lista) => {
+    return lista.reduce((total, despesa) =>
+      despesa.categoria!=='Investimento'? total: total + Number(despesa.valor)
+    , 0)
+  }
+
+  const DespesasFiltradas = () => {
     const filtradas = Despesas
       .filter((despesa) =>
         filtro === 'Todas' ? true :
         filtro === 'Fixa' ? despesa.categoria === 'Fixa' :
         filtro === 'Variável' ? despesa.categoria === 'Variável' :
         filtro === 'Alimentação' ? despesa.categoria === 'Alimentação' :
-        false
+        filtro === 'Investimento'? despesa.categoria === 'Investimento' : false
       )
       .filter((despesa) =>
         despesa.descricao.toLowerCase().includes(busca.toLowerCase())
@@ -74,43 +100,33 @@ const DespesasFiltradas = () =>{
     )
 
     return ordenadas
-}
+  }
 
-const [busca, setBusca] = useState('')
-
-const [filtro, setFiltro] = useState('Todas')
-const [ordem, setOrdem] = useState('decrescente')
   return (
     <div className='app'>
       <h1>Controle de gastos</h1>
       <Buscar busca={busca} setBusca={setBusca}/>
       <Filtro filtro={filtro} setFiltro={setFiltro} ordem={ordem} setOrdem={setOrdem} />
-      <h2>Total a pagar: R${saldoDespesas(DespesasFiltradas())}</h2>
+      {filtro!=='Investimento' &&(
+        <h2>Total a pagar: R${saldoDespesas(DespesasFiltradas())}</h2>
+      )}
+      {filtro==='Investimento' &&(
+      <h2>Total Investido R${saldoInvestimentos(DespesasFiltradas())}</h2>
+      )}
       <div className='ListaDespesas'>
-        {
-         DespesasFiltradas().map((despesa) => (
-          <ToDo key={despesa.data} despesa={despesa} removeDespesas={removeDespesas} pagarDespesas={pagarDespesas} editarDespesa={editarDespesa}/>
+        {DespesasFiltradas().map((despesa) => (
+          <ToDo
+            key={despesa.data}
+            despesa={despesa}
+            removeDespesas={removeDespesas}
+            pagarDespesas={pagarDespesas}
+            editarDespesa={editarDespesa}
+          />
         ))}
       </div>
       <ToDoForm addDespesa={addDespesa} despesaEditando={despesaEditando} />
     </div>
   )
 }
-   function salvarListaNoLocalStorage() {
-        localStorage.setItem("novaDespesa", JSON.stringify(novaDespesa));
-    }
-
-    function carregarListaDoLocalStorage() {
-        const despesaSalva = localStorage.getItem("");
-        if (despesaSalva) {
-          novaDespesa = JSON.parse(despesaSalva); 
-        } else {
-            addDespesa();
-        }
-    }
-    window.onload = function() {
-       carregarListaDoLocalStorage(); 
-        listar();
-    }
 
 export default App
