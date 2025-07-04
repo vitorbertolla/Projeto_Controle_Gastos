@@ -110,8 +110,8 @@ function App() {
       {filtro!=='Investimento' &&(
         <h2>Total a pagar: R${saldoDespesas(DespesasFiltradas())}</h2>
       )}
-      {filtro==='Investimento' &&(
-      <h2>Total Investido R${saldoInvestimentos(DespesasFiltradas())}</h2>
+      {(filtro === 'Investimento' || filtro === 'Todas') && (
+        <h2>Total Investido: R${saldoInvestimentos(DespesasFiltradas())}</h2>
       )}
       <div className='ListaDespesas'>
         {DespesasFiltradas().map((despesa) => (

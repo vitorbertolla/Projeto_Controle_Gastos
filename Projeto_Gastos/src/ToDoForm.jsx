@@ -60,7 +60,7 @@ const ToDoForm = ({addDespesa,despesaEditando}) => {
 
     return(
         <div className="ToDoForm">
-            <h2>{despesaEditando ? 'Edição de despesa' : Categoria==='Investimento'? "Novo Investimento": "Nova Despesa"}</h2>
+            <h2>{Categoria==='Investimento'? despesaEditando? 'Edição do Investimento': 'Nova Despesa': despesaEditando? "Edição de Despesa": "Nova Despesa"}</h2>
             <form onSubmit={Submit}>
                 <select value={Categoria} onChange={(e) => SetCategoria(e.target.value)} name="" id="">
                     <option value="">Selecione uma categoria</option>
