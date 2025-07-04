@@ -30,7 +30,7 @@ function App() {
     if (despesaEditando) {
       const atualizadas = Despesas.map((despesa) =>
         despesa.data === despesaEditando.data
-          ? { ...despesa, descricao, valor, categoria }
+          ? { ...despesa, descricao, valor, categoria, quantidade }
           : despesa
       )
       SetDespesas(atualizadas)
