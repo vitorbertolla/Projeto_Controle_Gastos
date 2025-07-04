@@ -108,10 +108,10 @@ function App() {
       <Buscar busca={busca} setBusca={setBusca}/>
       <Filtro filtro={filtro} setFiltro={setFiltro} ordem={ordem} setOrdem={setOrdem} />
       {filtro!=='Investimento' &&(
-        <h2>Total a pagar: R${saldoDespesas(DespesasFiltradas())}</h2>
+        <h2>Total a Pagar:{" "}{saldoDespesas(DespesasFiltradas()).toLocaleString('pt-BR', {style: 'currency',currency: 'BRL',})}</h2>
       )}
       {(filtro === 'Investimento' || filtro === 'Todas') && (
-        <h2>Total Investido: R${saldoInvestimentos(DespesasFiltradas())}</h2>
+        <h2>Total Investido:{" "}{saldoInvestimentos(DespesasFiltradas()).toLocaleString('pt-BR', {style: 'currency',currency: 'BRL',})}</h2>
       )}
       <div className='ListaDespesas'>
         {DespesasFiltradas().map((despesa) => (

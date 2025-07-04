@@ -2,8 +2,8 @@ const ToDo = ({despesa, removeDespesas, pagarDespesas, editarDespesa}) => {
     return(
         <div className="despesa" style={{textDecoration: despesa.pago? "line-through" : "" }}>
             <div className="descricao">
-              <p>{despesa.categroia==='Investimento' ? '' : `despesa: ${despesa.descricao}`} </p>
-              <p>Valor: {despesa.valor}</p>
+              <p>{despesa.categoria==='Investimento'? `Investimento: ${despesa.descricao}` : `despesa: ${despesa.descricao}`} </p>
+              <p>Valor: {despesa.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
               <p>Categoria: {despesa.categoria}</p>
               <p>Data: {despesa.data}</p>
               <p>{despesa.categoria==='Investimento'? '': despesa.pago? `Status: Pago`: `Status: Pendente`}</p>
