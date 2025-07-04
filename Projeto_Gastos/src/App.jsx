@@ -24,7 +24,7 @@ function App() {
     localStorage.setItem("despesas", JSON.stringify(lista))
   }
 
-  const addDespesa = (descricao, valor, categoria) => {
+  const addDespesa = (descricao, valor, categoria, quantidade) => {
     const agora = new Date()
 
     if (despesaEditando) {
@@ -42,7 +42,8 @@ function App() {
         valor: Number(valor),
         categoria,
         data: agora.toLocaleString(),
-        pago: false
+        pago: false,
+        quantidade: categoria === 'Investimento' ? quantidade : undefined
       }
       const atualizadas = [...Despesas, novaDespesa]
       SetDespesas(atualizadas)

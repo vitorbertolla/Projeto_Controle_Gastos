@@ -8,12 +8,17 @@ const ToDoForm = ({addDespesa,despesaEditando}) => {
 
 
     useEffect(() => {
-    if (despesaEditando) {
-      SetDescricao(despesaEditando.descricao)
-      SetValor(despesaEditando.valor)
-      SetCategoria(despesaEditando.categoria)
-    }
-  }, [despesaEditando])
+      if (despesaEditando) {
+        SetDescricao(despesaEditando.descricao)
+        SetCategoria(despesaEditando.categoria)
+      
+        if (despesaEditando.categoria === 'Investimento' && despesaEditando.quantidade) {
+          SetValor(despesaEditando.quantidade)
+        } else {
+          SetValor(despesaEditando.valor)
+        }
+      }
+    }, [despesaEditando])
 
   const buscarPrecoCripto = async (nomeCripto) => {
     const nomeFormatado = nomeCripto.toLowerCase().trim()
@@ -47,7 +52,8 @@ const ToDoForm = ({addDespesa,despesaEditando}) => {
                 if (precoAtual === null) return
 
                 const totalConvertido = precoAtual * Number(Valor)
-                addDespesa(Descricao, totalConvertido, Categoria)}
+                const quantidade = Number(Valor)
+                addDespesa(Descricao, totalConvertido, Categoria, quantidade)}
         else{
             addDespesa(Descricao, Number(Valor), Categoria)
             }
