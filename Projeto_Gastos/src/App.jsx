@@ -31,6 +31,7 @@ const addDespesa = (descricao, valor, categoria) => {
       pago: false
     }
     SetDespesas([...Despesas, novaDespesa])
+    salvarListaNoLocalStorage();
   }
 }
   const editarDespesa = (data) => {
@@ -95,5 +96,21 @@ const [ordem, setOrdem] = useState('decrescente')
     </div>
   )
 }
+   function salvarListaNoLocalStorage() {
+        localStorage.setItem("novaDespesa", JSON.stringify(novaDespesa));
+    }
+
+    function carregarListaDoLocalStorage() {
+        const despesaSalva = localStorage.getItem("");
+        if (despesaSalva) {
+          novaDespesa = JSON.parse(despesaSalva); 
+        } else {
+            addDespesa();
+        }
+    }
+    window.onload = function() {
+       carregarListaDoLocalStorage(); 
+        listar();
+    }
 
 export default App
