@@ -1,86 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 body{
-    background-color: #666464;
+    background-color: #f3f7f7;
     padding: 30px;
-    color: black;
+    font-family: "Afacad Flux", sans-serif;;
+    color: #2e2e2e;
 }
 .app{
-    max-width: 50vw;
-    margin: 0 auto;
-    background-color: #efefef;
-    padding: 20px, 30px;
-    border-radius: 10px;
-    margin-bottom: 300px;
+    max-width: 800px;
+    margin: auto;
+    padding: 30px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
+
 h1{
     text-align: center;
-    padding: 20px 0 ;
+    font-size: 36px;
+    margin-bottom: 24px;
+    color: #1e293b;
 }
 h2{
     margin-top: 0px;
+    font-size: 24px;
+    color: #3b3b3b;
+    margin: 24px 0 8px;
 }
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #4b5563;
+}
+
 p{
-    margin: 10px 0px;
+    margin: 6px 0px;
+    font-size: 16px;
 }
+
 input{
     box-sizing: border-box;
 }
-button{
-    background-color: rgb(131, 131, 226);
-    color: black;
-    margin-right: 10px;
-    padding: 5px 10px;
+
+button {
+    background-color: #3c83f5;
+    color: white;
+    padding: 8px 16px;
     border: none;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    opacity: .8;
-    transition: .3s;
+    margin-right: 10px;
 }
-button:hover{
-    opacity: 1;
+
+button:hover {
+    background-color: #2563eb;
+    transform: scale(1.03);
 }
-.salvar{
-    background-color: lightgreen;
+
+.salvar {
+    background-color: #10b981;
 }
-.apagar{
-    background-color: rgb(223, 84, 84);
+
+.salvar:hover {
+    background-color: #059669;
 }
-.editar{
-    background-color: lightblue;
+
+.apagar {
+    background-color: #ef4444;
 }
-.ListaDespesas{
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid grey;
+
+.apagar:hover {
+    background-color: #dc2626;
 }
-.despesa{
-    background-color: #fff;
-    box-shadow: 0 0  10px rgba(0, 0, 0, .1);
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+
+.editar {
+    background-color: #f3de23;
+    color: #ffffff;
+}
+
+.editar:hover {
+    background-color: #eab308;
+}
+
+.ListaDespesas {
+    margin-top: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.despesa {
+    background-color: #f9fafb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    transition: border 0.3s ease;
+}
+
 .ToDoForm{
     padding: 1.5rem;
 }
-input, select{
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    width: 100%;
-}
-.filtro, .busca{
-    border-bottom: 1px solid #555;
+
+.filtro, .busca {
+    border-bottom: 1px solid #d1d5db;
     margin-bottom: 20px;
     padding-bottom: 20px;
 }
-.filtro{
+
+.filtro {
     display: flex;
-    justify-content: space-between;
-    gap: 3rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 10px;
 }
+
 .filtro div {
     flex: 1 1 0;
+}
+
+@media (max-width: 600px) {
+  .despesa {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    width: 100%;
+    margin: 6px 0;
+  }
 }
