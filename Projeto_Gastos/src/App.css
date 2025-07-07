@@ -46,11 +46,13 @@ h1 {
 }
 
 .ListaDespesas {
-    margin-top: 2rem;
-    max-height: 70vh;
-    overflow-y: auto;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
+  width: 55%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding-right: 12px;
+  border-right: 2px dashed #cbd5e1;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 #e5e7eb;
 }
 
 .despesa {
