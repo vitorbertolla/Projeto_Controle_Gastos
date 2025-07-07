@@ -12,7 +12,6 @@ function App() {
   const [filtro, setFiltro] = useState('Todas')
   const [ordem, setOrdem] = useState('decrescente')
 
-  // Carrega do localStorage ao iniciar
   useEffect(() => {
     const listaSalva = localStorage.getItem("despesas")
     if (listaSalva) {
@@ -106,26 +105,30 @@ function App() {
   return (
     <div className='app'>
       <h1>Controle de gastos</h1>
-      <Buscar busca={busca} setBusca={setBusca}/>
-      <Filtro filtro={filtro} setFiltro={setFiltro} ordem={ordem} setOrdem={setOrdem} />
-      {filtro!=='Investimento' &&(
-        <h2>Total a Pagar:{" "}{saldoDespesas(DespesasFiltradas()).toLocaleString('pt-BR', {style: 'currency',currency: 'BRL',})}</h2>
-      )}
-      {(filtro === 'Investimento' || filtro === 'Todas') && (
-        <h2>Total Investido:{" "}{saldoInvestimentos(DespesasFiltradas()).toLocaleString('pt-BR', {style: 'currency',currency: 'BRL',})}</h2>
-      )}
-      <div className='ListaDespesas'>
-        {DespesasFiltradas().map((despesa) => (
-          <ToDo
-            key={despesa.data}
-            despesa={despesa}
-            removeDespesas={removeDespesas}
-            pagarDespesas={pagarDespesas}
-            editarDespesa={editarDespesa}
-          />
-        ))}
+      <div className='conteiner'>
+        <div className='ListaDespesas'>
+          {DespesasFiltradas().map((despesa) => (
+            <ToDo
+              key={despesa.data}
+              despesa={despesa}
+              removeDespesas={removeDespesas}
+              pagarDespesas={pagarDespesas}
+              editarDespesa={editarDespesa}
+            />
+          ))}
+        </div>
+        <div className='conteiner2'>
+          <Buscar busca={busca} setBusca={setBusca}/>
+          <Filtro filtro={filtro} setFiltro={setFiltro} ordem={ordem} setOrdem={setOrdem} />
+          {filtro!=='Investimento' &&(
+            <h2>Total a Pagar:{" "}{saldoDespesas(DespesasFiltradas()).toLocaleString('pt-BR', {style: 'currency',currency: 'BRL',})}</h2>
+          )}
+          {(filtro === 'Investimento' || filtro === 'Todas') && (
+            <h2>Total Investido:{" "}{saldoInvestimentos(DespesasFiltradas()).toLocaleString('pt-BR', {style: 'currency',currency: 'BRL',})}</h2>
+          )}
+          <ToDoForm addDespesa={addDespesa} despesaEditando={despesaEditando} />
+        </div>
       </div>
-      <ToDoForm addDespesa={addDespesa} despesaEditando={despesaEditando} />
     </div>
   )
 }
